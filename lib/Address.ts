@@ -345,7 +345,7 @@ export class Address {
     }
   }
 
-  public async transactions(address: string | string[]): Promise<any> {
+  public async transactions(address: string | string[], page: number = 0): Promise<any> {
     try {
       // Handle single address.
       if (typeof address === "string") {
@@ -361,7 +361,8 @@ export class Address {
         const response: AxiosResponse = await axios.post(
           `${this.restURL}address/transactions`,
           {
-            addresses: address
+            addresses: address,
+            page
           }
         )
 
