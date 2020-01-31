@@ -24,8 +24,8 @@ import { Util } from "./Util"
 // import { Wallet } from "./Wallet"
 
 // consts
-export const resturl = "https://rest.bitcoin.com/v2/"
-export const tresturl = "https://trest.bitcoin.com/v2/"
+export const resturl = "https://rest.zslp.org/v2/"
+export const tresturl = "https://trest.zslp.org/v2/"
 
 export class BITBOX {
   public restURL: string

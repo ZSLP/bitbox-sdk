@@ -10,7 +10,7 @@ export class Socket {
       if (config.restURL) {
         this.socket = io(`${config.restURL}`)
       } else {
-        const restURL = "https://rest.bitcoin.com"
+        const restURL = "https://rest.zslp.org"
         this.socket = io(`${restURL}`)
       }
 
