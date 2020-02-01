@@ -6,14 +6,13 @@ import {
   AddressUtxoResult
 } from "bitcoin-com-rest"
 import * as bcl from "bitcoincashjs-lib"
-import { BchInfo } from ".."
+import { CoinInfo } from ".."
 import { REST_URL } from "./BITBOX"
 
 // consts
 // TODO: port require statements to impprt
 const Bitcoin = require("bitcoincashjs-lib")
 const cashaddr = require("cashaddrjs")
-const coininfo = require("coininfo")
 
 interface Hash {
   hash: Buffer
@@ -44,26 +43,23 @@ export class Address {
   // Translate address from any address format into a specific format.
   public toLegacyAddress(address: string): string {
     const { prefix, type, hash }: Decoded = this._decode(address)
-    let bitcoincash: BchInfo = coininfo.bitcoincash.main
+    let zclassic: CoinInfo = Bitcoin.networks.zclassic
     switch (prefix) {
-      case "bitcoincash":
-        bitcoincash = coininfo.bitcoincash.main
+      case "zclassic":
+        zclassic = Bitcoin.networks.zclassic
         break
-      case "bchtest":
-        bitcoincash = coininfo.bitcoincash.test
-        break
-      case "bchreg":
-        bitcoincash = coininfo.bitcoincash.regtest
+      case "zcltest":
+        zclassic = Bitcoin.networks.zclassicTest
         break
     }
 
-    let version: number = bitcoincash.versions.public
+    let version: number = zclassic.pubKeyHash
     switch (type) {
       case "P2PKH":
-        version = bitcoincash.versions.public
+        version = zclassic.pubKeyHash
         break
       case "P2SH":
-        version = bitcoincash.versions.scripthash
+        version = zclassic.scriptHash
         break
     }
 
@@ -205,28 +201,26 @@ export class Address {
   }
 
   public fromXPub(xpub: string, path: string = "0/0"): string {
-    let bitcoincash: BchInfo
-    if (xpub[0] === "x") bitcoincash = coininfo.bitcoincash.main
-    else bitcoincash = coininfo.bitcoincash.test
+    let bitcoincash: CoinInfo
+    if (xpub[0] === "x") bitcoincash = Bitcoin.networks.zclassic
+    else bitcoincash = Bitcoin.networks.zclassicTest
 
-    const bitcoincashBitcoinJSLib: any = bitcoincash.toBitcoinJS()
     const HDNode: bcl.HDNode = Bitcoin.HDNode.fromBase58(
       xpub,
-      bitcoincashBitcoinJSLib
+      bitcoincash
     )
     const address: bcl.HDNode = HDNode.derivePath(path)
     return this.toCashAddress(address.getAddress())
   }
 
   public fromXPriv(xpriv: string, path: string = "0'/0"): string {
-    let bitcoincash: BchInfo
-    if (xpriv[0] === "x") bitcoincash = coininfo.bitcoincash.main
-    else bitcoincash = coininfo.bitcoincash.test
+    let bitcoincash: CoinInfo
+    if (xpriv[0] === "x") bitcoincash = Bitcoin.networks.zclassic
+    else bitcoincash = Bitcoin.networks.zclassicTest
 
-    const bitcoincashBitcoinJSLib: any = bitcoincash.toBitcoinJS()
     const HDNode: bcl.HDNode = Bitcoin.HDNode.fromBase58(
       xpriv,
-      bitcoincashBitcoinJSLib
+      bitcoincash
     )
     const address: bcl.HDNode = HDNode.derivePath(path)
     return this.toCashAddress(address.getAddress())
@@ -238,15 +232,11 @@ export class Address {
   ): string {
     let netParam: any
     if (network !== "bitcoincash" && network !== "mainnet")
-      netParam = Bitcoin.networks.testnet
+      netParam = Bitcoin.networks.zclassicTest
 
     const regtest: boolean = network === "bchreg"
 
-    return this.toCashAddress(
-      Bitcoin.address.fromOutputScript(scriptPubKey, netParam),
-      true,
-      regtest
-    )
+    return Bitcoin.address.fromOutputScript(scriptPubKey, netParam)
   }
 
   public async details(
@@ -404,7 +394,10 @@ export class Address {
     const info: {
       main: any
       test: any
-    } = coininfo.bitcoincash
+    } = {
+      main: Bitcoin.networks.zclassic,
+      test: Bitcoin.networks.zclassicTest
+    }
 
     let decoded: Decoded = {
       prefix: "",
@@ -413,33 +406,33 @@ export class Address {
       format: ""
     }
     switch (version) {
-      case info.main.versions.public:
+      case info.main.pubKeyHash:
         decoded = {
-          prefix: "bitcoincash",
+          prefix: "zclassic",
           type: "P2PKH",
           hash: hash,
           format: "legacy"
         }
         break
-      case info.main.versions.scripthash:
+      case info.main.scriptHash:
         decoded = {
-          prefix: "bitcoincash",
+          prefix: "zclassic",
           type: "P2SH",
           hash: hash,
           format: "legacy"
         }
         break
-      case info.test.versions.public:
+      case info.test.pubKeyHash:
         decoded = {
-          prefix: "bchtest",
+          prefix: "zcltest",
           type: "P2PKH",
           hash: hash,
           format: "legacy"
         }
         break
-      case info.test.versions.scripthash:
+      case info.test.scriptHash:
         decoded = {
-          prefix: "bchtest",
+          prefix: "zcltest",
           type: "P2SH",
           hash: hash,
           format: "legacy"

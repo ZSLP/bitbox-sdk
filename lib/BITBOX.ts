@@ -26,14 +26,14 @@ import { Util } from "./Util"
 // import { Wallet } from "./Wallet"
 
 // Defaults
-export const WS_URL = "wss://ws.bitcoin.com"
-export const TWS_URL = "wss://tws.bitcoin.com"
-export const BITSOCKET_URL = "https://bitsocket.bch.sx"
-export const TBITSOCKET_URL = "https://tbitsocket.bitcoin.com"
-export const REST_URL = "https://rest.bitcoin.com/v2/"
-export const TREST_URL = "https://trest.bitcoin.com/v2/"
-export const BITDB_URL = "https://bitdb.bitcoin.com/"
-export const TBITDB_URL = "https://tbitdb.bitcoin.com/"
+export const WS_URL = "wss://ws.zslp.org"
+export const TWS_URL = "wss://tws.zslp.org"
+export const BITSOCKET_URL = "https://bitsocket.zslp.org"
+export const TBITSOCKET_URL = "https://tbitsocket.zslp.org"
+export const REST_URL = "https://rest.zslp.org/v2/"
+export const TREST_URL = "https://trest.zslp.org/v2/"
+export const BITDB_URL = "https://bitdb.zslp.org/"
+export const TBITDB_URL = "https://tbitdb.zslp.org/"
 
 export class BITBOX {
   public restURL: string

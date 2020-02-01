@@ -22,29 +22,15 @@ export * from "./lib/Transaction"
 export * from "./lib/TransactionBuilder"
 export * from "./lib/Util"
 
-export interface BchInfo {
-  hashGenesisBlock: string
-  port: number
-  portRpc: number
-  protocol: {
-    magic: number
-  }
-  seedsDns: string[]
-  versions: {
-    bip32: {
-      private: number
-      public: number
-    }
-    bip44: number
-    private: number
+export interface CoinInfo {
+  messagePrefix: string
+  bip32: {
     public: number
-    scripthash: number
-    messagePrefix: string
+    private: number
   }
-  name: string
-  per1: number
-  unit: string
-  testnet: boolean
-  toBitcoinJS: any
-  toBitcore: any
+  pubKeyHash: number
+  scriptHash: number
+  wif: number
+  consensusBranchId: { [id: number]: number }
+  coin: string
 }
