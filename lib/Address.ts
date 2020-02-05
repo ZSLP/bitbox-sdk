@@ -142,15 +142,15 @@ export class Address {
 
   // Test for address network.
   public isMainnetAddress(address: string): boolean {
-    if (address[0] === "x") return true
-    else if (address[0] === "t") return false
+    // if (address[0] === "x") return true
+    // else if (address[0] === "t") return false
 
     return this.detectAddressNetwork(address) === "mainnet"
   }
 
   public isTestnetAddress(address: string): boolean {
-    if (address[0] === "x") return false
-    else if (address[0] === "t") return true
+    // if (address[0] === "x") return false
+    // else if (address[0] === "t") return true
 
     return this.detectAddressNetwork(address) === "testnet"
   }
@@ -174,20 +174,20 @@ export class Address {
   }
 
   public detectAddressNetwork(address: string): string {
-    if (address[0] === "x") return "mainnet"
-    else if (address[0] === "t") return "testnet"
+    // if (address[0] === "x") return "mainnet"
+    // else if (address[0] === "t") return "testnet"
 
     const decoded: Decoded = this._decode(address)
     let prefix: string = ""
 
     switch (decoded.prefix) {
-      case "bitcoincash":
+      case "zclassic":
         prefix = "mainnet"
         break
-      case "bchtest":
+      case "zcltest":
         prefix = "testnet"
         break
-      case "bchreg":
+      case "zclreg":
         prefix = "regtest"
         break
     }
