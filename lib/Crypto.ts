@@ -1,5 +1,5 @@
 import randomBytes from "randombytes"
-const Bitcoin = require("@bitcoin-dot-com/bitcoincashjs2-lib")
+const Bitcoin = require("bitcoincashjs-lib")
 
 export class Crypto {
   public sha1(buffer: Buffer): Buffer {

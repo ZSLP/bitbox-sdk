@@ -1,8 +1,7 @@
 import * as bcl from "bitcoincashjs-lib"
 import { Address } from "./Address"
 
-const Bitcoin = require("@bitcoin-dot-com/bitcoincashjs2-lib")
-const coininfo = require("coininfo")
+const Bitcoin = require("bitcoincashjs-lib")
 
 export class ECPair {
   private _address: Address
@@ -17,12 +16,10 @@ export class ECPair {
     else if (privateKeyWIF[0] === "c") network = "testnet"
 
     let bitcoincash: any
-    if (network === "mainnet") bitcoincash = coininfo.bitcoincash.main
-    else bitcoincash = coininfo.bitcoincash.test
+    if (network === "mainnet") bitcoincash = Bitcoin.networks.zclassic
+    else bitcoincash = Bitcoin.networks.zclassicTest
 
-    const bitcoincashBitcoinJSLib = bitcoincash.toBitcoinJS()
-
-    return Bitcoin.ECPair.fromWIF(privateKeyWIF, bitcoincashBitcoinJSLib)
+    return Bitcoin.ECPair.fromWIF(privateKeyWIF, bitcoincash)
   }
 
   public toWIF(ecpair: bcl.ECPair): string {

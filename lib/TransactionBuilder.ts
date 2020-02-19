@@ -1,12 +1,11 @@
 // imports
 import { ECPair } from "bitcoincashjs-lib"
-import { BchInfo } from ".."
+import { CoinInfo } from ".."
 import { Address } from "./Address"
 import { TREST_URL } from "./BITBOX"
 
 // consts
-const Bitcoin = require("@bitcoin-dot-com/bitcoincashjs2-lib")
-const coininfo = require("coininfo")
+const Bitcoin = require("bitcoincashjs-lib")
 const bip66 = require("bip66")
 const bip68 = require("bc-bip68")
 
@@ -37,18 +36,17 @@ export class TransactionBuilder {
   private _address: Address
 
   constructor(network: string = "mainnet") {
-    let bitcoincash: BchInfo
+    let bitcoincash: CoinInfo
     if (network === "mainnet") {
       this._address = new Address()
     } else {
       this._address = new Address(TREST_URL)
     }
     if (network === "bitcoincash" || network === "mainnet")
-      bitcoincash = coininfo.bitcoincash.main
-    else bitcoincash = coininfo.bitcoincash.test
+      bitcoincash = Bitcoin.networks.zclassic
+    else bitcoincash = Bitcoin.networks.zclassicTest
 
-    const bitcoincashBitcoinJSLib: any = bitcoincash.toBitcoinJS()
-    this.transaction = new Bitcoin.TransactionBuilder(bitcoincashBitcoinJSLib)
+    this.transaction = new Bitcoin.TransactionBuilder(bitcoincash)
     this.DEFAULT_SEQUENCE = 0xffffffff
     this.hashTypes = {
       SIGHASH_ALL: 0x01,

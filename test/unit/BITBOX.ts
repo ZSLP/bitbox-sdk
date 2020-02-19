@@ -29,7 +29,7 @@ describe("#BITBOX", (): void => {
     })
 
     it("should have a restURL property", (): void => {
-      const bitbox: BITBOX = new BITBOX({ restURL: "https://rest.bitcoin.com/v2/" })
+      const bitbox: BITBOX = new BITBOX({ restURL: "https://rest.zslp.org/v2/" })
       assert.equal(bitbox.restURL, REST_URL)
     })
 

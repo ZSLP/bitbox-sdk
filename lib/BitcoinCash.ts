@@ -2,12 +2,11 @@
 import { Address } from "./Address"
 
 // consts
-const Bitcoin = require("@bitcoin-dot-com/bitcoincashjs2-lib")
+const Bitcoin = require("bitcoincashjs-lib")
 const sb = require("satoshi-bitcoin")
 const bitcoinMessage = require("bitcoinjs-message")
 const bs58 = require("bs58")
 const bip21 = require("bip21")
-const coininfo = require("coininfo")
 const bip38 = require("bip38")
 const wif = require("wif")
 
@@ -62,13 +61,12 @@ export class BitcoinCash {
     const network: string =
       privateKeyWIF.charAt(0) === "c" ? "testnet" : "mainnet"
     let bitcoincash: any
-    if (network === "mainnet") bitcoincash = coininfo.bitcoincash.main
-    else bitcoincash = coininfo.bitcoincash.test
+    if (network === "mainnet") bitcoincash = Bitcoin.networks.zclassic
+    else bitcoincash = Bitcoin.networks.zclassicTest
 
-    const bitcoincashBitcoinJSLib: any = bitcoincash.toBitcoinJS()
     const keyPair: any = Bitcoin.ECPair.fromWIF(
       privateKeyWIF,
-      bitcoincashBitcoinJSLib
+      bitcoincash
     )
     const privateKey: any = keyPair.d.toBuffer(32)
     return bitcoinMessage
